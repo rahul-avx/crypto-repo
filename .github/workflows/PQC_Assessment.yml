@@ -12,6 +12,6 @@ jobs:
 
     steps:
       - name: Use PQC_Assessment Runner Action
-        uses: rahul-avx/assessment-tool@v1.0.0
+        uses: rahul-avx/assessment-tool-pipeline@v1.0.0
         with:
           target-repo-url: ${{ github.repository }}
