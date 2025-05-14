@@ -26,6 +26,7 @@ jobs:
         with:
           repository: rahul-avx/assessment-tool
           path: assessment-tool-repo
+          token: ${{ secrets.PQC_ASSESSMENT_TOOL_PAT }}
 
       - name: Validate Input Folder
         run: |
