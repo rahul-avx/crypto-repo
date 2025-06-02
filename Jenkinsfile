@@ -19,9 +19,12 @@ pipeline {
                 echo 'Checking out current repo'
                 checkout scm
                 sh """
-                    mkdir -p ${TARGET_REPO_DIR}
-                    mv * .[^.]* ${TARGET_REPO_DIR} || true
-                """
+		    mkdir -p ${TARGET_REPO_DIR}
+		    shopt -s dotglob
+		    for item in *; do
+			[ "\$item" != "${TARGET_REPO_DIR}" ] && mv "\$item" "${TARGET_REPO_DIR}/"
+		    done
+		"""
             }
         }
 
