@@ -32,7 +32,7 @@ pipeline {
 
         stage('Checkout Assessment Tool Repository') {
             steps {
-                withCredentials([string(credentialsId: 'PQC_ASSESSMENT_TOOL_PAT', variable: 'GIT_TOKEN')]) {
+                withCredentials([string(credentialsId: 'pqc-assessment-token', variable: 'GIT_TOKEN')]) {
                     sh """
                         git clone https://${GIT_TOKEN}@github.com/rahul-avx/assessment-tool.git ${ASSESSMENT_TOOL_DIR}
                     """
