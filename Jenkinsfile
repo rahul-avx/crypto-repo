@@ -22,7 +22,9 @@ pipeline {
 		    mkdir -p ${TARGET_REPO_DIR}
 		    shopt -s dotglob
 		    for item in *; do
-			[ "\$item" != "${TARGET_REPO_DIR}" ] && mv "\$item" "${TARGET_REPO_DIR}/"
+			if [ "\$item" != "${TARGET_REPO_DIR}" ] && [ "\$item" != "Jenkinsfile" ]; then
+			    mv "\$item" "${TARGET_REPO_DIR}/"
+			fi
 		    done
 		"""
             }
