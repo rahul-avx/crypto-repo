@@ -1,0 +1,39 @@
+{
+    "cbomFormat": "AppViewX_CBOM",
+    "specVersion": "1.0",
+    "serialNumber": "urn:uuid:47325f87-8df7-44c8-ab00-cc5221c82c1a",
+    "timestamp": "2025-05-15T07:54:10.281120",
+    "repoScanDetails": [
+        {
+            "scanName": "Scan_2025-05-15T07:54:10.281120",
+            "repoName": "temp_folders(copy)",
+            "cryptographicComponents": [
+                {
+                    "fileName": "/home/rahul.mohanasundaram/Documents/AVX_Works/PQC/input-folders/temp_folders(copy)/test_custom.py",
+                    "fileCryptoComponents": [
+                        {
+                            "lineNumber": 12,
+                            "libraryName": "sampel",
+                            "language": "python",
+                            "className": "crypto_class.CryptoClass",
+                            "methodName": "encrypt",
+                            "pqcCompliance": "No",
+                            "remediation": "jkas",
+                            "issueId": "PQ-1"
+                        },
+                        {
+                            "lineNumber": 16,
+                            "libraryName": "sampel",
+                            "language": "python",
+                            "className": "crypto_class.CryptoClass",
+                            "methodName": "decrypt",
+                            "pqcCompliance": "No",
+                            "remediation": "Use ML-DSA or SLH-DSA to replace RSA signatures in post-quantum systems.",
+                            "issueId": "REL-PQ-1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
