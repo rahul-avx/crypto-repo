@@ -6,7 +6,7 @@ from pqcrypto.sign.dilithium2 import generate_keypair, sign, verify
 public_key, private_key = generate_keypair()
 
 # Message to be signed
-message = b"Hello, Post-Quantum Cryptography!"
+message = b"Hello, Post-Quantum Cryptography! "
 
 # Sign the message
 signature = sign(message, private_key)
