@@ -51,8 +51,11 @@ jobs:
 
       - name: Run PQC_Assessment Executable
         run: |
-          chmod +x ./assessment-tool-repo/PQC_Assessment_Tool 
-          ./assessment-tool-repo/PQC_Assessment_Tool --inputFolder ./target-repo --outputFolder ./output-folder --configPath ./assessment-tool-repo/config.ini
+          chmod +x /home/appviewx/assessment-tool-repo/PQC_Assessment_Tool 
+          /home/appviewx/assessment-tool-repo/PQC_Assessment_Tool \
+            --inputFolder ./target-repo \
+            --outputFolder ./output-folder \
+            --configPath /home/appviewx/assessment-tool-repo/config.ini
         shell: bash  
     
       - name: Upload CBOM output as Artifact
