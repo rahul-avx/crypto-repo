@@ -1,8 +1,0 @@
-Port 22
-Protocol 2
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-KexAlgorithms ecdh-sha2-nistp256
-Ciphers aes128-ctr,aes256-ctr
-MACs hmac-sha2-256
-Subsystem sftp /usr/lib/openssh/sftp-server
