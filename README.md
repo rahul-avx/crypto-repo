@@ -1,1 +1,1 @@
-Sample Crypto Project intended for PQC Assessment
+Sample Crypto Project intended for PQC Assessment.
