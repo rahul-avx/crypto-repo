@@ -7,7 +7,7 @@ public class KeyPairGeneratorExample {
         try {
             // Use the constant from CryptoConfig
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            keyGen.initialize(CryptoConfig.RSA_KEY_SIZE);
+            keyGen.initialize(2048);
 
             // Generate the key pair
             KeyPair keyPair = keyGen.generateKeyPair();
