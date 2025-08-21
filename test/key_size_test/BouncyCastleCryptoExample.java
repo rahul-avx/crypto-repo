@@ -12,7 +12,7 @@ import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-public class BouncyCastleCryptoExamples {
+public class BouncyCastleCryptoExample {
 
     // Constants for key sizes
     private static final int AES_KEY_SIZE = 256;
