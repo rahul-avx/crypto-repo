@@ -8,7 +8,7 @@ public class AESCFBNoPaddingExample {
     public static void main(String[] args) throws Exception {
         // Generate AES key (128-bit for demo, can use 192/256 if policy allows)
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128);
+        keyGen.init(256);
         SecretKey secretKey = keyGen.generateKey();
 
         // Generate random IV (AES block size = 16 bytes)
