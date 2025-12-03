@@ -46,8 +46,7 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Running PQC Tool..."
-          run: |
-            & "C:\code-scan\code-scan-agent.exe" --input-folder ".\target-repo" --output-folder ".\output-folder" --key "C:\code-scan\secret.key" --config "C:\code-scan\config.ini"
+          & "C:\code-scan\code-scan-agent.exe" --input-folder ".\target-repo" --output-folder ".\output-folder" --key "C:\code-scan\secret.key" --config "C:\code-scan\config.ini"
 
       - name: Upload CBOM output as Artifact
         uses: actions/upload-artifact@v4
