@@ -15,45 +15,63 @@ jobs:
     runs-on: [self-hosted]
 
     steps:
+      # -------------------------------
+      # Checkout repository
+      # -------------------------------
       - name: Checkout Target Repository
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository }}
-          fetch-depth: 0
+          fetch-depth: 0   # Full history
 
-      
+      # -------------------------------
+      # Validate the checkout folder
+      # -------------------------------
       - name: Validate Input Folder
         shell: powershell
         run: |
-          Write-Host "Checking input folder..."
-          if (Test-Path "target-repo") {
-            Write-Host "Folder exists:"
-            Get-ChildItem -Force "target-repo"
-          } else {
-            Write-Error "Input folder does not exist!"
+          Write-Host "Checking current directory contents..."
+          Get-ChildItem -Force
+
+          if (-not (Test-Path "./")) {
+            Write-Error "Checkout folder missing!"
             exit 1
           }
 
+      # -------------------------------
+      # Prepare output folder
+      # -------------------------------
       - name: Prepare Output Folder
         shell: powershell
         run: |
           Write-Host "Creating output folder..."
           New-Item -ItemType Directory -Force -Path "output-folder" | Out-Null
-          Write-Host "Output contents:"
-          Get-ChildItem -Force "output-folder" -ErrorAction SilentlyContinue
+          Write-Host "Output-folder created."
 
+      # -------------------------------
+      # Run PQC Assessment Tool
+      # -------------------------------
       - name: Run PQC_Assessment Executable
         shell: powershell
         run: |
           Write-Host "Running PQC Tool..."
-          & "C:\code-scan\code-scan-agent.exe" --input-folder ".\target-repo" --output-folder ".\output-folder" --key "C:\code-scan\secret.key" --config "C:\code-scan\config.ini"
+          & "C:\code-scan\code-scan-agent.exe" `
+              --input-folder "." `
+              --output-folder ".\output-folder" `
+              --key "C:\code-scan\secret.key" `
+              --config "C:\code-scan\config.ini"
 
+      # -------------------------------
+      # Upload CBOM Artifact
+      # -------------------------------
       - name: Upload CBOM output as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CBOM-output
           path: output-folder
 
+      # -------------------------------
+      # Find SARIF File Dynamically
+      # -------------------------------
       - name: Find SARIF file
         id: find_sarif
         shell: powershell
@@ -66,6 +84,9 @@ jobs:
           Write-Host "Found SARIF file: $($sarif.FullName)"
           echo "sarif_path=$($sarif.FullName)" >> $env:GITHUB_OUTPUT
 
+      # -------------------------------
+      # Upload SARIF to Security Dashboard
+      # -------------------------------
       - name: Upload SARIF Results
         uses: github/codeql-action/upload-sarif@v4
         with:
