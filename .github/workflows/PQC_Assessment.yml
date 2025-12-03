@@ -1,18 +1,18 @@
 name: Run PQC_Assessment_Tool
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
   push:
     branches:
       - main
-      
+
 permissions:
   security-events: write
   contents: read
 
 jobs:
   run-pqc-assessment:
-    runs-on: self-hosted
+    runs-on: [self-hosted]
 
     steps:
       - name: Checkout Target Repository
@@ -21,65 +21,44 @@ jobs:
           repository: ${{ github.repository }}
           path: target-repo
 
-      - name: Checkout Target Repository
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ github.repository }}
-          path: target-repo
-
-      - name: Checkout Assessment Tool Repository
-        uses: actions/checkout@v3
-        with:
-          repository: rahul-avx/assessment-tool
-          path: assessment-tool-repo
-          token: ${{ secrets.PQC_ASSESSMENT_TOOL_PAT }}
-
-      - name: Download PQC_Assessment_Tool Binary from Release
-        run: |
-          echo "Overwriting with release binary..."
-          curl -L -o assessment-tool-repo/PQC_Assessment_Tool \
-            -H "Authorization: token ${{ secrets.PQC_ASSESSMENT_TOOL_PAT }}" \
-            -H "Accept: application/octet-stream" \
-            https://api.github.com/repos/rahul-avx/assessment-tool/releases/assets/264338654
-          chmod +x assessment-tool-repo/PQC_Assessment_Tool
-
+      
       - name: Validate Input Folder
+        shell: powershell
         run: |
-          echo "Checking if input folder exists..."
-          if [ -d "./target-repo" ]; then
-            echo "Input folder exists. Listing contents:"
-            ls -la ./target-repo
-          else
-            echo "Input folder does not exist!"
+          Write-Host "Checking input folder..."
+          if (Test-Path "target-repo") {
+            Write-Host "Folder exists:"
+            Get-ChildItem -Force "target-repo"
+          } else {
+            Write-Error "Input folder does not exist!"
             exit 1
-          fi
-        shell: bash
+          }
 
       - name: Prepare Output Folder
+        shell: powershell
         run: |
-          echo "Ensuring output folder exists..."
-          mkdir -p ./output-folder
-          chmod 755 ./output-folder
-          echo "Output folder ready. Listing contents (if any):"
-          ls -la ./output-folder || echo "Output folder is empty."
-        shell: bash
+          Write-Host "Creating output folder..."
+          New-Item -ItemType Directory -Force -Path "output-folder" | Out-Null
+          Write-Host "Output contents:"
+          Get-ChildItem -Force "output-folder" -ErrorAction SilentlyContinue
 
       - name: Run PQC_Assessment Executable
+        shell: powershell
         run: |
-          chmod +x ./assessment-tool-repo/PQC_Assessment_Tool 
-          ./assessment-tool-repo/PQC_Assessment_Tool \
-            --inputFolder ./target-repo \
-            --outputFolder ./output-folder \
-            --configPath ./assessment-tool-repo/config.ini
-        shell: bash  
-    
+          Write-Host "Running PQC Tool..."
+          "C:\code-scan\code-scan-agent.exe" `
+            --input-folder ".\target-repo" `
+            --output-folder ".\output-folder" `
+            --key "C:\code-scan\secret.key" `
+            --config "C:\code-scan\config.ini"
+
       - name: Upload CBOM output as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CBOM-output
-          path: ./output-folder
+          path: output-folder
 
       - name: Upload SARIF Results
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./output-folder/results.sarif
+          sarif_file: output-folder/results.sarif
