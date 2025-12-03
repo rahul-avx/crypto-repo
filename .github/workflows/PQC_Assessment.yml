@@ -54,6 +54,16 @@ jobs:
           name: CBOM-output
           path: output-folder
 
+      - name: Check SARIF file exists
+        shell: powershell
+        run: |
+          $sarif = Get-ChildItem -Path "output-folder" -Filter *.sarif -Recurse -ErrorAction SilentlyContinue
+          if (-not $sarif) {
+            Write-Error "No SARIF file found in output-folder"
+            exit 1
+          }
+          Write-Host "Found SARIF file: $($sarif.FullName)"
+
       - name: Upload SARIF Results
         uses: github/codeql-action/upload-sarif@v3
         with:
