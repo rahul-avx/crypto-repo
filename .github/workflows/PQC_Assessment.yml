@@ -54,7 +54,7 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Running PQC Tool..."
-          & "C:\code-scan\code-scan-agent.exe" `
+          & "C:\Users\appviewx\Desktop\code-scan-agent.exe" `
               --input-folder "." `
               --output-folder ".\output-folder" `
               --key "C:\code-scan\secret.key" `
