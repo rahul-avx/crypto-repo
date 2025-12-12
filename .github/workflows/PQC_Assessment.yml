@@ -57,8 +57,8 @@ jobs:
           & "C:\Users\appviewx\Desktop\code-scan-agent.exe" `
               --input-folder "." `
               --output-folder ".\output-folder" `
-              --key "C:\code-scan\secret.key" `
-              --config "C:\code-scan\config.ini"
+              --key "C:\Users\appviewx\Desktop\secret.key" `
+              --config "C:\Users\appviewx\Desktop\config.ini"
 
       # -------------------------------
       # Upload CBOM Artifact
