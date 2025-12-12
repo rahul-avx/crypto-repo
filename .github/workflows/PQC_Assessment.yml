@@ -54,11 +54,11 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Running PQC Tool..."
-          & "C:\Users\appviewx\Desktop\code-scan-agent.exe" `
+          & "C:\code-scan-agent-windows-validation\code-scan-agent.exe" `
               --input-folder "." `
               --output-folder ".\output-folder" `
-              --key "C:\Users\appviewx\Desktop\secret.key" `
-              --config "C:\Users\appviewx\Desktop\config.ini"
+              --key "C:\code-scan-agent-windows-validation\secret.key" `
+              --config "C:\code-scan-agent-windows-validation\config.ini"
 
       # -------------------------------
       # Upload CBOM Artifact
